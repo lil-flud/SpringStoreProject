@@ -24,6 +24,7 @@ public class StoreService {
         if (potentialStore.isPresent()) {
             throw new IllegalStateException("Store already exists!");
         }
+        storeRepository.save(store);
     }
 
     public Optional<Store> getStoreByNameAndLocation(String storeName, String city, String state) {

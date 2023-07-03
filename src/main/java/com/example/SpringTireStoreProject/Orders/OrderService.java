@@ -18,11 +18,9 @@ public class OrderService {
     }
 
     public void addNewOrder(Orders orders) {
-        Optional<Orders> potentialOrder = orderRepository
-                .findById(orders.getId());
-        if (potentialOrder.isPresent()) {
-            throw new IllegalStateException(
-                    "Orders of id " + orders.getId() + " already exists!");
+        if (orders.getDateOrdered() == null)
+        {
+            orders.setDateOrdered();
         }
         orderRepository.save(orders);
     }

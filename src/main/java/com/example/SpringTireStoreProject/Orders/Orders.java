@@ -50,10 +50,17 @@ public class Orders {
         this.dateOrdered = dateOrdered;
     }
 
+    public Orders(Store store, String tireName, Integer amount, LocalDate dateOrdered) {
+        this.store = store;
+        this.tireName = tireName;
+        this.amount = amount;
+        this.dateOrdered = dateOrdered;
+    }
+
     public Orders(String tireName, Integer amount) {
         this.tireName = tireName;
         this.amount = amount;
-        this.dateOrdered = LocalDate.now();
+        this.setDateOrdered();
     }
 
     public Orders() {
