@@ -2,6 +2,7 @@ package com.example.SpringTireStoreProject.Store;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -45,7 +46,7 @@ public class StoreService {
 //    }
 
     public Store getOneStore(Long id) {
-        Store store = storeRepository.getOne(id);
+        Store store = storeRepository.findById(id).get();
         return store;
     }
 
@@ -60,6 +61,8 @@ public class StoreService {
         }
     }
 
+
+    @Transactional
     public void updateStore(String storeName,
                             String city,
                             String state,

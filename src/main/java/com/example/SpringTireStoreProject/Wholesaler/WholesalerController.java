@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(path = "/wholesalers")
+@RequestMapping(path = "api/v1/wholesalers")
 public class WholesalerController {
 
     private final WholesalerService wholesalerService;
@@ -38,9 +38,10 @@ public class WholesalerController {
     }
 
     @PutMapping(path = "updatewholesaler/{companyName}")
-    public void updateWholesaler(@PathVariable("companyName") String companyName,
-    @RequestParam(required = false) String newName,
-    @RequestParam(required = false) String newWebsite) {
+    public void updateWholesaler(
+            @PathVariable("companyName") String companyName,
+            @RequestParam(required = false) String newName,
+            @RequestParam(required = false) String newWebsite) {
         wholesalerService.updateWholesaler(companyName, newName, newWebsite);
     }
 }

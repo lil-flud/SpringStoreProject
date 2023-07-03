@@ -5,6 +5,7 @@ import com.example.SpringTireStoreProject.Wholesaler.Wholesaler;
 import com.example.SpringTireStoreProject.Wholesaler.WholesalerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Objects;
@@ -48,6 +49,7 @@ public class WholesalerService {
         }
     }
 
+    @Transactional
     public void updateWholesaler(String companyName,
                                  String newName,
                                  String newWebsite) {
@@ -58,7 +60,7 @@ public class WholesalerService {
         if (newName != null &&
         newName.length() > 0 &&
         !Objects.equals(wholesaler.getCompany().toLowerCase(), newName.toLowerCase())) {
-            Optional<Wholesaler> potentialWholesaler = wholesalerRepository.findWholesalerByName(companyName);
+            Optional<Wholesaler> potentialWholesaler = wholesalerRepository.findWholesalerByName(newName);
             if (potentialWholesaler.isPresent()) {
                 throw new IllegalStateException(
                         "Wholesaler with name " + companyName + " does not exist!");
@@ -70,16 +72,16 @@ public class WholesalerService {
                 newWebsite.length() > 0 &&
                 !Objects.equals(wholesaler.getCompany().toLowerCase(), newWebsite.toLowerCase())) {
             Optional<Wholesaler> potentialWholesaler = wholesalerRepository.findWholesalerByName(companyName);
-            if (potentialWholesaler.isPresent()) {
-                throw new IllegalStateException(
-                        "Wholesaler with name " + companyName + " does not exist!");
-            }
+//            if (potentialWholesaler.isPresent()) {
+//                throw new IllegalStateException(
+//                        "Wholesaler with name " + companyName + " does not exist!");
+//            }
             wholesaler.setWebsite(newWebsite);
         }
     }
 
     public Wholesaler getOneWholesaler(Long id) {
-        Wholesaler wholesaler = wholesalerRepository.getOne(id);
+        Wholesaler wholesaler = wholesalerRepository.findById(id).get();
         return wholesaler;
     }
 

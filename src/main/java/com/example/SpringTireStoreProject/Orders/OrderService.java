@@ -17,22 +17,22 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public void addNewOrder(Order order) {
-        Optional<Order> potentialOrder = orderRepository
-                .findById(order.getId());
+    public void addNewOrder(Orders orders) {
+        Optional<Orders> potentialOrder = orderRepository
+                .findById(orders.getId());
         if (potentialOrder.isPresent()) {
             throw new IllegalStateException(
-                    "Order of id " + order.getId() + " already exists!");
+                    "Orders of id " + orders.getId() + " already exists!");
         }
-        orderRepository.save(order);
+        orderRepository.save(orders);
     }
 
-    public List<Order> getOrders() { return orderRepository.findAll(); }
+    public List<Orders> getOrders() { return orderRepository.findAll(); }
 
-    public Optional<Order> getOrder(Long id) { return orderRepository.findById(id);}
+    public Optional<Orders> getOrder(Long id) { return orderRepository.findById(id);}
 
     public void deleteOrder(Long id) {
-        Optional<Order> potentialOrder = orderRepository.findById(id);
+        Optional<Orders> potentialOrder = orderRepository.findById(id);
         if (potentialOrder.isPresent()) {
             orderRepository.deleteById(id);
         } else {
@@ -45,20 +45,25 @@ public class OrderService {
     public void updateOrder(Long id,
                             String newTireName,
                             Integer newAmount) {
-        Order order = orderRepository.findById(id)
+        Orders orders = orderRepository.findById(id)
                 .orElseThrow(() -> new IllegalStateException(
-                        "Order with id " + id + " does not exist!"
+                        "Orders with id " + id + " does not exist!"
                 ));
 
         if (newTireName != null &&
         newTireName.length() > 0 &&
-        !Objects.equals(order.getTireName().toLowerCase(), newTireName.toLowerCase())) {
-            order.setTireName(newTireName);
+        !Objects.equals(orders.getTireName().toLowerCase(), newTireName.toLowerCase())) {
+            orders.setTireName(newTireName);
         }
 
         if (newAmount != null &&
-            !Objects.equals(order.getAmount(), newAmount)) {
-            order.setAmount(newAmount);
+            !Objects.equals(orders.getAmount(), newAmount)) {
+            orders.setAmount(newAmount);
         }
+    }
+
+    public Orders getOneOrder(Long id) {
+        Orders order = orderRepository.findById(id).get();
+        return order;
     }
 }

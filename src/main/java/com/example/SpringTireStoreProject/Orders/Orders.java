@@ -1,14 +1,13 @@
 package com.example.SpringTireStoreProject.Orders;
 
 import com.example.SpringTireStoreProject.Store.Store;
-import com.example.SpringTireStoreProject.Wholesaler.Wholesaler;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
 @Entity
 @Table
-public class Order {
+public class Orders {
     @Id
     @SequenceGenerator(
             name = "order_sequence",
@@ -21,39 +20,43 @@ public class Order {
     )
     private Long id;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "store_id", referencedColumnName = "id")
+    private Store store;
+
     private String tireName;
 
     private Integer amount;
 
     private LocalDate dateOrdered;
 
-    public Order(Long id, String tireName, Integer amount, LocalDate dateOrdered) {
+    public Orders(Long id, String tireName, Integer amount, LocalDate dateOrdered) {
         this.id = id;
         this.tireName = tireName;
         this.amount = amount;
         this.dateOrdered = dateOrdered;
     }
 
-    public Order(Long id, String tireName, Integer amount) {
+    public Orders(Long id, String tireName, Integer amount) {
         this.id = id;
         this.tireName = tireName;
         this.amount = amount;
         this.dateOrdered = LocalDate.now();
     }
 
-    public Order(String tireName, Integer amount, LocalDate dateOrdered) {
+    public Orders(String tireName, Integer amount, LocalDate dateOrdered) {
         this.tireName = tireName;
         this.amount = amount;
         this.dateOrdered = dateOrdered;
     }
 
-    public Order(String tireName, Integer amount) {
+    public Orders(String tireName, Integer amount) {
         this.tireName = tireName;
         this.amount = amount;
         this.dateOrdered = LocalDate.now();
     }
 
-    public Order() {
+    public Orders() {
     }
 
     public Long getId() {
@@ -92,9 +95,17 @@ public class Order {
         this.dateOrdered = LocalDate.now();
     }
 
+    public Store getStore() {
+        return store;
+    }
+
+    public void setStore(Store store) {
+        this.store = store;
+    }
+
     @Override
     public String toString() {
-        return "Order{" +
+        return "Orders{" +
                 "id=" + id +
                 ", tireName='" + tireName + '\'' +
                 ", amount=" + amount +

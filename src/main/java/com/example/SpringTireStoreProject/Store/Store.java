@@ -1,6 +1,8 @@
 package com.example.SpringTireStoreProject.Store;
 
+import com.example.SpringTireStoreProject.Orders.Orders;
 import com.example.SpringTireStoreProject.Wholesaler.Wholesaler;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -29,6 +31,10 @@ public class Store {
             inverseJoinColumns = @JoinColumn(name= "wholesaler_id")
     )
     private Set<Wholesaler> wholesalerCollection = new HashSet<>();
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "store")
+    private Set<Orders> orders = new HashSet<>();
     private String storeName;
     private String city;
     private String state;
@@ -89,11 +95,16 @@ public class Store {
         this.state = state;
     }
 
+    public Set<Orders> getOrders() {
+        return orders;
+    }
+
     @Override
     public String toString() {
         return "Store{" +
                 "id=" + id +
                 ", wholesalerCollection=" + wholesalerCollection +
+                ", orders=" + orders +
                 ", storeName='" + storeName + '\'' +
                 ", city='" + city + '\'' +
                 ", state='" + state + '\'' +
@@ -103,4 +114,7 @@ public class Store {
     public void collectWholesaler(Wholesaler wholesaler) {
         wholesalerCollection.add(wholesaler);
     }
+
+    public void putInAnOrder(Orders order) { orders.add(order); }
+
 }

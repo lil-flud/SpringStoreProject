@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/orders")
+@RequestMapping("/api/v1/orders")
 public class OrderController {
 
     private final OrderService orderService;
@@ -16,16 +16,16 @@ public class OrderController {
     public OrderController(OrderService orderService) { this.orderService = orderService; }
 
     @GetMapping
-    public List<Order> getOrders() { return orderService.getOrders(); }
+    public List<Orders> getOrders() { return orderService.getOrders(); }
 
     @GetMapping(path = "{id}")
-    public Optional<Order> getOrder(@PathVariable("id") Long id) {
+    public Optional<Orders> getOrder(@PathVariable("id") Long id) {
         return orderService.getOrder(id);
     }
 
     @PostMapping
-    public void registerNewOrder(@RequestBody Order order) {
-        orderService.addNewOrder(order);
+    public void registerNewOrder(@RequestBody Orders orders) {
+        orderService.addNewOrder(orders);
     }
 
     @DeleteMapping(path = "delOrder/{orderId}")

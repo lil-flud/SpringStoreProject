@@ -16,13 +16,13 @@ public class OrderConfig {
     @Bean
     CommandLineRunner orderCommandLineRunner(OrderRepository repository) {
         return args -> {
-            Order nexensFromDK = new Order(
+            Orders nexensFromDK = new Orders(
                     1L,
                     "Nexen Roadian HTX",
                     7,
                     LocalDate.of(2023, JUNE, 1)
             );
-            Order summitsFromHarris = new Order(
+            Orders summitsFromHarris = new Orders(
                     "Summit Trail Climber AT",
                     8,
                     LocalDate.of(2023, JULY, 1)

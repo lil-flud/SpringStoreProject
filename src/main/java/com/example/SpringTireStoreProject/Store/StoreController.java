@@ -1,6 +1,7 @@
 package com.example.SpringTireStoreProject.Store;
 
-//import com.example.SpringTireStoreProject.Orders.OrderService;
+import com.example.SpringTireStoreProject.Orders.OrderService;
+import com.example.SpringTireStoreProject.Orders.Orders;
 import com.example.SpringTireStoreProject.Wholesaler.Wholesaler;
 import com.example.SpringTireStoreProject.Wholesaler.WholesalerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,26 +11,21 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/stores")
+@RequestMapping("api/v1/stores")
 public class StoreController {
 
     private final StoreService storeService;
 
     private final WholesalerService wholesalerService;
 
-//    private final OrderService orderService;
+    private final OrderService orderService;
 
     @Autowired
-    public StoreController(StoreService storeService, WholesalerService wholesalerService) {
+    public StoreController(StoreService storeService, WholesalerService wholesalerService, OrderService orderService) {
         this.storeService = storeService;
         this.wholesalerService = wholesalerService;
-//        this.orderService = orderService;
+        this.orderService = orderService;
     }
-
-
-
-//    @Autowired
-//    StoreRepository storeRepository;
 
     @GetMapping
     public List<Store> getStores() { return storeService.getStores(); }
@@ -70,6 +66,17 @@ public class StoreController {
         Store store = storeService.getOneStore(storeId);
         Wholesaler wholesaler = wholesalerService.getOneWholesaler(wholesalerId);
         store.collectWholesaler(wholesaler);
+        return storeService.saveToDb(store);
+    }
+
+    @PutMapping("/{storeId}/orders/{orderId}")
+    public Store addOrderToStoresOrders(
+            @PathVariable("storeId") Long storeId,
+            @PathVariable("orderId") Long orderId) {
+        Store store = storeService.getOneStore(storeId);
+        Orders individualOrder = orderService.getOneOrder(orderId);
+        store.putInAnOrder(individualOrder);
+        individualOrder.setStore(store);
         return storeService.saveToDb(store);
     }
 
